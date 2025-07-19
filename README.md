@@ -1,7 +1,9 @@
 # SoilPeg
 
 CircuitPythonを使用した土壌水分・温度・照度センサーシステム
-<img width="496" height="737" alt="Image" src="https://github.com/user-attachments/assets/2c9b0598-1c3a-4712-9a00-4a0b5a95afde" />
+
+<img width="248" height="368" alt="Image" src="https://github.com/user-attachments/assets/2c9b0598-1c3a-4712-9a00-4a0b5a95afde" />
+
 ## ハードウェア構成
 
 - マイコン: ESP32C6
