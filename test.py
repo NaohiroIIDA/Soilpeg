@@ -8,6 +8,10 @@ import alarm
 # 温度の移動平均用バッファ（最大10個のデータを保持）
 temp_buffer = []
 
+# マッピング関数
+def map_fit(x,in_min,in_max,out_min,out_max):
+    return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
+
 # センサーの初期化
 def initialize_sensors():
     # PWM出力の設定（静電容量センサ用）
@@ -44,8 +48,8 @@ def main():
         time.sleep(0.1)
         
         # センサー値の読み取りと変換
-        light_raw = lp.value                          # 照度センサの生値
-        soil_voltage = soil.value / 65536 * 3.3       # 土壌水分センサ値を電圧に変換
+        light_raw = map_fit(lp.value,0,12000,0,100)                         # 照度センサの生値
+        soil_voltage = map_fit(soil.value,40000,50000,100,0)        # 土壌水分センサ値を電圧に変換
         temp_celsius = ((tmp.value / 65536 * 3.2) - 0.5) * 100  # 温度センサ値を摂氏に変換
         
         # 温度データを移動平均バッファに追加
@@ -58,7 +62,7 @@ def main():
         temp_avg = sum(temp_buffer) / len(temp_buffer)
         
         # データの出力（CSV形式）
-        print(f"{light_raw},{soil_voltage},{temp_avg}")
+        print(f"{light_raw},{soil_voltage},{round(temp_avg,1)}")
         
     except Exception as e:
         print(f"Error: {str(e)}")
@@ -70,18 +74,19 @@ def main():
 
 # メインループ
 while True:
-    # メイン処理の実行（センサー初期化、測定、データ出力）
+    # メイン処理の実行
     main()
     
-    # シリアル出力完了を待つ
-    time.sleep(0.1)
+    # 10秒間のディープスリープ
+    #microcontroller.nvm[0] = 0  # 不揃発振防止用のフラグ
+    time.sleep(0.1)            # データ出力完了を待つ
     
-    # 20秒間のディープスリープを設定
-    # monotonic_timeは現在時刻からの相対時間（秒）
-    time_alarm = alarm.time.TimeAlarm(monotonic_time=time.monotonic() + 20)
+    #time_alarm = alarm.time.TimeAlarm(monotonic_time=time.monotonic() + 20)
+ 
+    # コードの実行を終了し、time_alarmで設定した時間までdeep sleepします。
+    #alarm.exit_and_deep_sleep_until_alarms(time_alarm)
+
     
-    # ディープスリープに入る
-    # - 全てのペリフェラルが停止
-    # - 指定時間後に自動的に再起動
-    # - 再起動後はプログラムの最初から実行される
-    alarm.exit_and_deep_sleep_until_alarms(time_alarm)
+    time.sleep(1)            # デバッグ
+    
+    #microcontroller.reset()     # リセットしてディープスリープに入る
