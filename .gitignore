@@ -1,0 +1,19 @@
+# CircuitPython
+*.mpy
+.env
+.venv/
+__pycache__/
+*.pyc
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*~
+
+# CircuitPython specific
+boot_out.txt
+.Trashes
+.metadata_never_index
+.fseventsd/
+.DS_Store
