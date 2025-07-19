@@ -10,6 +10,7 @@ CircuitPythonを使用した土壌水分・温度・照度センサーシステ�
   - 静電容量式土壌水分センサ (A1)
   - 温度センサ (A2)
 - PWM出力 (D10): 静電容量センサ用励振信号
+<img width="803" height="586" alt="Image" src="https://github.com/user-attachments/assets/cc775021-70cc-49d0-bd2f-81cb3e0ac4cd" />
 
 ## 機能
 
