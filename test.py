@@ -3,7 +3,7 @@ from analogio import AnalogIn     # アナログ入力用
 from board import *            # ピン定義用
 import pwmio                  # PWM出力用
 import time                     # 時間処理用
-import microcontroller         # ディープスリープ用
+import alarm
 
 # 温度の移動平均用バッファ（最大10個のデータを保持）
 temp_buffer = []
@@ -46,7 +46,7 @@ def main():
         # センサー値の読み取りと変換
         light_raw = lp.value                          # 照度センサの生値
         soil_voltage = soil.value / 65536 * 3.3       # 土壌水分センサ値を電圧に変換
-        temp_celsius = ((tmp.value / 65536 * 3.3) - 0.5) * 100  # 温度センサ値を摂氏に変換
+        temp_celsius = ((tmp.value / 65536 * 3.2) - 0.5) * 100  # 温度センサ値を摂氏に変換
         
         # 温度データを移動平均バッファに追加
         temp_buffer.append(temp_celsius)
@@ -70,10 +70,18 @@ def main():
 
 # メインループ
 while True:
-    # メイン処理の実行
+    # メイン処理の実行（センサー初期化、測定、データ出力）
     main()
     
-    # 10秒間のディープスリープ
-    microcontroller.nvm[0] = 0  # 不揃発振防止用のフラグ
-    time.sleep(0.1)            # データ出力完了を待つ
-    microcontroller.reset()     # リセットしてディープスリープに入る
+    # シリアル出力完了を待つ
+    time.sleep(0.1)
+    
+    # 20秒間のディープスリープを設定
+    # monotonic_timeは現在時刻からの相対時間（秒）
+    time_alarm = alarm.time.TimeAlarm(monotonic_time=time.monotonic() + 20)
+    
+    # ディープスリープに入る
+    # - 全てのペリフェラルが停止
+    # - 指定時間後に自動的に再起動
+    # - 再起動後はプログラムの最初から実行される
+    alarm.exit_and_deep_sleep_until_alarms(time_alarm)
