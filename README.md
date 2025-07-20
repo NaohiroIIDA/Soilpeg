@@ -39,4 +39,6 @@ CircuitPythonを使用した土壌水分・温度・照度センサーシステ�
 <img width="320" height="490" alt="Image" src="https://github.com/user-attachments/assets/cf7577a9-ffc3-47a6-ad41-058b5f68bf5c" />
 
 ## （動画）Xiao ESP32C6にCircuitPyhtonをインストールする手順（ブラウザ使用）
+
 https://youtu.be/3VY-Rl7ak7s
+<img width="1028" height="677" alt="Image" src="https://github.com/user-attachments/assets/06dd7ba7-cb06-46bf-9e31-6d3da825fa9f" />
