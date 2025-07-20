@@ -33,3 +33,9 @@ CircuitPythonを使用した土壌水分・温度・照度センサーシステ�
 
 - CircuitPython
 - ESP32C6開発ボード
+
+
+## キット部品組み立て
+<img width="320" height="490" alt="Image" src="https://github.com/user-attachments/assets/cf7577a9-ffc3-47a6-ad41-058b5f68bf5c" />
+
+
